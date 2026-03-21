@@ -1,4 +1,4 @@
-// InvoiceForge AI - Content Script for Upwork & Fiverr
+// BillCraft - Content Script for Upwork & Fiverr
 
 function isUpwork(): boolean {
   return window.location.hostname.includes('upwork.com');
@@ -87,4 +87,4 @@ function init() {
 }
 
 init();
-console.log('InvoiceForge AI content script loaded');
+console.log('BillCraft content script loaded');

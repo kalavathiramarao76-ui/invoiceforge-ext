@@ -69,7 +69,7 @@ export default function SidePanel() {
             </svg>
           </div>
           <div>
-            <h1 className="text-sm font-bold text-text-primary">InvoiceForge AI</h1>
+            <h1 className="text-sm font-bold text-text-primary">BillCraft</h1>
             <p className="text-[10px] text-text-tertiary">Full Workspace</p>
           </div>
         </div>

@@ -1,4 +1,4 @@
-// InvoiceForge AI - Background Service Worker
+// BillCraft - Background Service Worker
 
 // Open side panel when requested
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
@@ -28,7 +28,7 @@ chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: false }).catch(() =>
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
     id: 'invoiceforge-generate',
-    title: 'Generate Invoice with InvoiceForge AI',
+    title: 'Generate Invoice with BillCraft',
     contexts: ['selection'],
   });
 });
@@ -39,4 +39,4 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
   }
 });
 
-console.log('InvoiceForge AI background service worker loaded');
+console.log('BillCraft background service worker loaded');

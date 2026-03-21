@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "InvoiceForge AI",
+  "name": "BillCraft \u2014 AI Invoice, Proposal & Contract Generator",
   "version": "1.0.0",
-  "description": "AI-powered invoice, proposal & contract generator for freelancers",
+  "description": "AI invoice & proposal generator for freelancers. Create invoices, contracts & proposals from Upwork/Fiverr gigs instantly.",
   "permissions": [
     "sidePanel",
     "activeTab",
@@ -36,8 +36,12 @@
         "https://*.upwork.com/*",
         "https://*.fiverr.com/*"
       ],
-      "js": ["content.js"],
-      "css": ["content.css"]
+      "js": [
+        "content.js"
+      ],
+      "css": [
+        "content.css"
+      ]
     }
   ],
   "declarative_net_request": {
@@ -53,5 +57,6 @@
     "16": "icons/icon-16.png",
     "48": "icons/icon-48.png",
     "128": "icons/icon-128.png"
-  }
+  },
+  "short_name": "BillCraft"
 }

@@ -72,7 +72,7 @@ export default function Popup() {
             </svg>
           </div>
           <div>
-            <h1 className="text-base font-bold text-text-primary">InvoiceForge</h1>
+            <h1 className="text-base font-bold text-text-primary">BillCraft</h1>
             <p className="text-[10px] text-accent font-medium tracking-wider uppercase">AI-Powered</p>
           </div>
         </div>
