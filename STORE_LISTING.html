@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BillCraft - AI Invoice Generator | Chrome Web Store</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--accent:#10b981;--accent-dark:#059669;--bg:#0a120f;--card:#121e1a;--card-border:#1f332d;--text:#e0e7e4;--text-muted:#95a8a2}
+  body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;overflow-x:hidden}
+  .container{max-width:1100px;margin:0 auto;padding:0 24px}
+
+  .hero{text-align:center;padding:80px 24px 60px;background:linear-gradient(180deg,#0f1e18 0%,var(--bg) 100%);position:relative;overflow:hidden}
+  .hero::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 50% 50%,rgba(16,185,129,.08) 0%,transparent 50%);pointer-events:none}
+  .hero-icon{width:88px;height:88px;background:linear-gradient(135deg,var(--accent),var(--accent-dark));border-radius:22px;display:flex;align-items:center;justify-content:center;font-size:42px;margin:0 auto 24px;box-shadow:0 8px 32px rgba(16,185,129,.3)}
+  .hero h1{font-size:48px;font-weight:800;letter-spacing:-1px;background:linear-gradient(135deg,#fff,var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .hero .tagline{font-size:20px;color:var(--text-muted);margin:12px 0 8px;font-weight:500}
+  .hero .store-desc{font-size:15px;color:var(--text-muted);max-width:640px;margin:0 auto 28px}
+  .badge{display:inline-block;background:var(--accent);color:#fff;padding:6px 18px;border-radius:20px;font-size:13px;font-weight:600;letter-spacing:.5px}
+
+  .section{padding:60px 24px}
+  .section-title{text-align:center;font-size:32px;font-weight:700;margin-bottom:12px}
+  .section-sub{text-align:center;color:var(--text-muted);margin-bottom:40px;font-size:15px}
+
+  .tools-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1100px;margin:0 auto}
+  .tool-card{background:var(--card);border:1px solid var(--card-border);border-radius:16px;padding:28px;transition:transform .2s,box-shadow .2s}
+  .tool-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(16,185,129,.15)}
+  .tool-card .icon{font-size:32px;margin-bottom:12px}
+  .tool-card h3{font-size:17px;font-weight:700;margin-bottom:6px;color:#fff}
+  .tool-card p{font-size:13px;color:var(--text-muted);line-height:1.5}
+  .tool-card .tags{margin-top:10px;display:flex;flex-wrap:wrap;gap:6px}
+  .tool-card .tag{background:rgba(16,185,129,.12);color:var(--accent);padding:3px 10px;border-radius:8px;font-size:11px;font-weight:600}
+
+  .flow{display:flex;align-items:flex-start;justify-content:center;gap:0;max-width:1000px;margin:0 auto;flex-wrap:wrap}
+  .flow-step{text-align:center;flex:1;min-width:160px;max-width:200px;position:relative;padding:0 10px}
+  .flow-step:not(:last-child)::after{content:'';position:absolute;top:28px;right:-10px;width:20px;height:2px;background:var(--accent);opacity:.5}
+  .flow-num{width:56px;height:56px;background:linear-gradient(135deg,var(--accent),var(--accent-dark));border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;margin:0 auto 14px;color:#fff}
+  .flow-step h4{font-size:14px;font-weight:700;margin-bottom:4px;color:#fff}
+  .flow-step p{font-size:12px;color:var(--text-muted)}
+
+  .mock-section{display:grid;grid-template-columns:1fr 1fr;gap:32px;max-width:1000px;margin:0 auto}
+  .mock{background:#142220;border:1px solid var(--card-border);border-radius:14px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.3)}
+  .mock-bar{background:#0f1a18;padding:8px 14px;display:flex;align-items:center;gap:6px;font-size:11px;color:var(--text-muted)}
+  .mock-dot{width:8px;height:8px;border-radius:50%}
+  .mock-dot.r{background:#ef4444}.mock-dot.y{background:#eab308}.mock-dot.g{background:#22c55e}
+  .mock-body{padding:18px}
+  .mock-label{font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+  .mock-pill{background:rgba(16,185,129,.15);color:var(--accent);padding:4px 10px;border-radius:6px;font-size:11px;font-weight:600}
+  .mock-line{height:8px;border-radius:4px;background:rgba(255,255,255,.06)}
+  .mock-line.w60{width:60%}.mock-line.w80{width:80%}.mock-line.w45{width:45%}.mock-line.w70{width:70%}
+  .mock-btn{background:var(--accent);color:#fff;border:none;padding:6px 16px;border-radius:8px;font-size:11px;font-weight:600;margin-top:8px}
+
+  .currency-grid{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:20px auto;max-width:500px}
+  .curr{background:var(--card);border:1px solid var(--card-border);padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;color:var(--accent)}
+
+  .features-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;max-width:900px;margin:0 auto}
+  .feat{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1px solid var(--card-border);border-radius:12px;padding:16px}
+  .feat .fi{font-size:22px;flex-shrink:0}
+  .feat h4{font-size:14px;font-weight:700;color:#fff;margin-bottom:2px}
+  .feat p{font-size:12px;color:var(--text-muted)}
+
+  .release{max-width:700px;margin:0 auto}
+  .release-item{border-left:3px solid var(--accent);padding:12px 20px;margin-bottom:16px;background:var(--card);border-radius:0 12px 12px 0}
+  .release-item .ver{font-size:12px;font-weight:700;color:var(--accent);margin-bottom:4px}
+  .release-item p{font-size:13px;color:var(--text-muted)}
+
+  .store-listing{background:#0f1a18;border:2px solid var(--card-border);border-radius:16px;padding:36px;max-width:800px;margin:0 auto}
+  .store-listing h3{font-size:18px;font-weight:700;margin-bottom:16px;color:var(--accent)}
+  .store-listing ul{list-style:none;padding:0}
+  .store-listing li{padding:6px 0;font-size:14px;color:var(--text-muted);border-bottom:1px solid rgba(255,255,255,.04)}
+  .store-listing li::before{content:'✓ ';color:var(--accent);font-weight:700}
+  .copy-hint{text-align:center;margin-top:16px;font-size:12px;color:var(--text-muted);opacity:.6}
+
+  @media(max-width:768px){
+    .tools-grid,.mock-section,.features-grid{grid-template-columns:1fr}
+    .hero h1{font-size:32px}
+    .flow{flex-direction:column;align-items:center}
+    .flow-step::after{display:none}
+  }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <div class="hero-icon">&#128179;</div>
+  <h1>BillCraft</h1>
+  <p class="tagline">AI Invoice Generator</p>
+  <p class="store-desc">AI-powered invoice, proposal, and contract generator for freelancers. Create professional billing documents from Upwork and Fiverr gigs instantly.</p>
+  <span class="badge">CHROME EXTENSION</span>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Professional Documents in Seconds</h2>
+    <p class="section-sub">Generate invoices, proposals, and contracts from your freelance gigs with AI.</p>
+    <div class="tools-grid">
+      <div class="tool-card">
+        <div class="icon">&#128179;</div>
+        <h3>Invoice Creator</h3>
+        <p>Professional invoices with 8 currency support. Line items, taxes, terms, and branding — all generated by AI.</p>
+        <div class="tags"><span class="tag">8 Currencies</span><span class="tag">Tax Calc</span><span class="tag">6 Templates</span></div>
+      </div>
+      <div class="tool-card">
+        <div class="icon">&#128196;</div>
+        <h3>Proposal Writer</h3>
+        <p>Complete project proposals with scope, timeline, deliverables, and pricing sections.</p>
+        <div class="tags"><span class="tag">Scope</span><span class="tag">Timeline</span><span class="tag">Deliverables</span><span class="tag">Pricing</span></div>
+      </div>
+      <div class="tool-card">
+        <div class="icon">&#128221;</div>
+        <h3>Contract Generator</h3>
+        <p>Freelancer contracts with IP ownership, confidentiality, and termination clauses.</p>
+        <div class="tags"><span class="tag">IP</span><span class="tag">Confidentiality</span><span class="tag">Termination</span></div>
+      </div>
+      <div class="tool-card">
+        <div class="icon">&#127912;</div>
+        <h3>6 Templates</h3>
+        <p>Professional, modern, and clean templates for every type of billing document.</p>
+        <div class="tags"><span class="tag">Professional</span><span class="tag">Modern</span><span class="tag">Clean</span></div>
+      </div>
+      <div class="tool-card">
+        <div class="icon">&#128424;</div>
+        <h3>HTML Preview &amp; Export</h3>
+        <p>Live HTML preview with print-ready export. Perfect formatting every time.</p>
+        <div class="tags"><span class="tag">Preview</span><span class="tag">Export</span><span class="tag">Print</span></div>
+      </div>
+      <div class="tool-card">
+        <div class="icon">&#128268;</div>
+        <h3>Platform Integration</h3>
+        <p>Floating button injection on Upwork and Fiverr pages for one-click document creation.</p>
+        <div class="tags"><span class="tag">Upwork</span><span class="tag">Fiverr</span><span class="tag">Auto-Fill</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:linear-gradient(180deg,rgba(16,185,129,.04),transparent)">
+  <div class="container">
+    <h2 class="section-title">8 Currencies Supported</h2>
+    <p class="section-sub">Bill clients worldwide in their preferred currency.</p>
+    <div class="currency-grid">
+      <div class="curr">$ USD</div>
+      <div class="curr">&#8364; EUR</div>
+      <div class="curr">&#163; GBP</div>
+      <div class="curr">&#8377; INR</div>
+      <div class="curr">$ CAD</div>
+      <div class="curr">$ AUD</div>
+      <div class="curr">&#165; JPY</div>
+      <div class="curr">CHF</div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">How It Works</h2>
+    <p class="section-sub">From gig details to professional document in 4 steps.</p>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="flow-num">1</div>
+        <h4>Open Gig Page</h4>
+        <p>Browse to your Upwork or Fiverr gig, or open BillCraft directly</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">2</div>
+        <h4>Click Generate</h4>
+        <p>Use the floating button or choose Invoice/Proposal/Contract</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">3</div>
+        <h4>AI Fills Details</h4>
+        <p>AI extracts gig info and generates the complete document</p>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">4</div>
+        <h4>Preview &amp; Export</h4>
+        <p>Review the HTML preview, customize, and print or export</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:linear-gradient(180deg,rgba(16,185,129,.03),transparent)">
+  <div class="container">
+    <h2 class="section-title">See It In Action</h2>
+    <p class="section-sub">Clean documents, professional results.</p>
+    <div class="mock-section">
+      <div class="mock">
+        <div class="mock-bar"><span class="mock-dot r"></span><span class="mock-dot y"></span><span class="mock-dot g"></span>&nbsp; BillCraft &mdash; Invoice</div>
+        <div class="mock-body">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
+            <div>
+              <div style="font-size:16px;font-weight:800;color:#fff">INVOICE</div>
+              <div style="font-size:11px;color:var(--text-muted)">#INV-2024-0042</div>
+            </div>
+            <div style="text-align:right">
+              <div style="font-size:20px;font-weight:800;color:var(--accent)">$2,500.00</div>
+              <div style="font-size:10px;color:var(--text-muted)">USD</div>
+            </div>
+          </div>
+          <div style="border-top:1px solid var(--card-border);padding-top:12px;margin-bottom:10px">
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-bottom:6px"><span>Web Development</span><span>$2,000.00</span></div>
+            <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-muted);margin-bottom:6px"><span>Design Review</span><span>$500.00</span></div>
+            <div style="border-top:1px solid var(--card-border);padding-top:6px;display:flex;justify-content:space-between;font-size:12px;font-weight:700;color:#fff"><span>Total</span><span>$2,500.00</span></div>
+          </div>
+          <div style="display:flex;gap:8px"><button class="mock-btn">Export</button><button class="mock-btn" style="background:transparent;border:1px solid var(--accent);color:var(--accent)">Print</button></div>
+        </div>
+      </div>
+      <div class="mock">
+        <div class="mock-bar"><span class="mock-dot r"></span><span class="mock-dot y"></span><span class="mock-dot g"></span>&nbsp; Upwork Integration</div>
+        <div class="mock-body">
+          <div class="mock-label">Gig Detected</div>
+          <div style="background:rgba(255,255,255,.03);border-radius:8px;padding:10px;margin-bottom:12px">
+            <div class="mock-line w80" style="margin-bottom:6px"></div>
+            <div class="mock-line w60" style="margin-bottom:6px"></div>
+            <div class="mock-line w45"></div>
+          </div>
+          <div class="mock-label">Quick Generate</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <div class="mock-pill" style="text-align:left;padding:8px 12px">&#128179; Generate Invoice</div>
+            <div class="mock-pill" style="text-align:left;padding:8px 12px">&#128196; Generate Proposal</div>
+            <div class="mock-pill" style="text-align:left;padding:8px 12px">&#128221; Generate Contract</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Feature Highlights</h2>
+    <p class="section-sub">Built for freelancers who want to get paid faster.</p>
+    <div class="features-grid">
+      <div class="feat"><span class="fi">&#128179;</span><div><h4>Smart Invoices</h4><p>AI-generated invoices with line items, taxes, and payment terms.</p></div></div>
+      <div class="feat"><span class="fi">&#128176;</span><div><h4>8 Currencies</h4><p>USD, EUR, GBP, INR, CAD, AUD, JPY, CHF support built-in.</p></div></div>
+      <div class="feat"><span class="fi">&#128196;</span><div><h4>Proposal Writer</h4><p>Complete proposals with scope, timeline, deliverables, and pricing.</p></div></div>
+      <div class="feat"><span class="fi">&#128221;</span><div><h4>Contract Generator</h4><p>IP, confidentiality, and termination clauses auto-generated.</p></div></div>
+      <div class="feat"><span class="fi">&#128268;</span><div><h4>Upwork &amp; Fiverr</h4><p>Floating button injection for one-click generation from gig pages.</p></div></div>
+      <div class="feat"><span class="fi">&#128424;</span><div><h4>Print-Ready Export</h4><p>HTML preview with perfect print formatting. Export any time.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="background:linear-gradient(180deg,rgba(16,185,129,.04),transparent)">
+  <div class="container">
+    <h2 class="section-title">What's New</h2>
+    <p class="section-sub">Latest updates and improvements.</p>
+    <div class="release">
+      <div class="release-item"><div class="ver">v1.2.0 &mdash; Latest</div><p>Contract generator with IP and confidentiality clauses. Added CHF and JPY currencies. Print styling improvements.</p></div>
+      <div class="release-item"><div class="ver">v1.1.0</div><p>Fiverr integration. Proposal writer with scope/timeline sections. 3 new invoice templates.</p></div>
+      <div class="release-item"><div class="ver">v1.0.0</div><p>Initial release with invoice creator, Upwork integration, 3 templates, and 5 currencies.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">Chrome Web Store Listing</h2>
+    <p class="section-sub">Copy-paste ready feature list for your store description.</p>
+    <div class="store-listing">
+      <h3>Feature List</h3>
+      <ul>
+        <li>AI-powered invoice generator with line items, taxes, and payment terms</li>
+        <li>Proposal writer with scope, timeline, deliverables, and pricing</li>
+        <li>Contract generator with IP, confidentiality, and termination clauses</li>
+        <li>8 currencies: USD, EUR, GBP, INR, CAD, AUD, JPY, CHF</li>
+        <li>6 professional document templates</li>
+        <li>HTML preview with live editing</li>
+        <li>Print-ready export formatting</li>
+        <li>Upwork integration with floating button injection</li>
+        <li>Fiverr integration with floating button injection</li>
+        <li>Auto-extract gig details from freelance platform pages</li>
+        <li>Works as a standalone tool for any freelance billing need</li>
+      </ul>
+      <p class="copy-hint">Select all text above and copy for your Chrome Web Store listing</p>
+    </div>
+  </div>
+</section>
+
+</body>
+</html>
