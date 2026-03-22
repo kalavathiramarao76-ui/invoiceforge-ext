@@ -1,4 +1,5 @@
 import { DocumentType, InvoiceData, ProposalData, ContractData } from './types';
+import { incrementUsage } from './usage';
 
 const API_URL = 'https://sai.sharedllm.com/v1/chat/completions';
 const MODEL = 'gpt-oss:120b';
@@ -58,6 +59,7 @@ export async function generateDocument(
   data: InvoiceData | ProposalData | ContractData,
   onChunk?: (chunk: string) => void
 ): Promise<string> {
+  incrementUsage();
   const prompt = buildPrompt(type, data);
 
   const response = await fetch(API_URL, {
