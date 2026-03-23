@@ -1,35 +1,62 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128">
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#10b981"/>
-      <stop offset="100%" stop-color="#059669"/>
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="100%" stop-color="#064e3b"/>
     </linearGradient>
-    <linearGradient id="shine" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="rgba(255,255,255,0.2)"/>
-      <stop offset="50%" stop-color="rgba(255,255,255,0)"/>
+    <linearGradient id="bgSheen" x1="0%" y1="0%" x2="40%" y2="40%">
+      <stop offset="0%" stop-color="#10b981" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#10b981" stop-opacity="0"/>
     </linearGradient>
+    <linearGradient id="craneFill" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.15"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.03"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-opacity="0.3"/>
+    </filter>
+    <filter id="sparkle">
+      <feGaussianBlur stdDeviation="1.5" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
   </defs>
   <!-- Background -->
   <rect width="128" height="128" rx="28" fill="url(#bg)"/>
-  <!-- Shine -->
-  <rect width="128" height="128" rx="28" fill="url(#shine)"/>
-  <!-- Invoice document -->
-  <rect x="28" y="18" width="56" height="76" rx="4" fill="none" stroke="white" stroke-width="3.5"/>
-  <!-- Document header line -->
-  <line x1="38" y1="32" x2="60" y2="32" stroke="white" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
-  <!-- Document lines -->
-  <line x1="38" y1="44" x2="74" y2="44" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
-  <line x1="38" y1="54" x2="68" y2="54" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
-  <line x1="38" y1="64" x2="72" y2="64" stroke="white" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
-  <!-- Separator line -->
-  <line x1="38" y1="74" x2="74" y2="74" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity="0.3"/>
-  <line x1="58" y1="82" x2="74" y2="82" stroke="white" stroke-width="2.5" stroke-linecap="round" opacity="0.6"/>
-  <!-- Dollar sign circle (bottom right overlay) -->
-  <circle cx="88" cy="88" r="22" fill="#059669" stroke="white" stroke-width="3"/>
-  <!-- Dollar sign -->
-  <text x="88" y="96" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="28" fill="white">$</text>
-  <!-- Sparkle (top right) -->
-  <path d="M96 24 L98 30 L104 32 L98 34 L96 40 L94 34 L88 32 L94 30 Z" fill="white" opacity="0.8"/>
-  <!-- Small sparkle -->
-  <path d="M106 44 L107 47 L110 48 L107 49 L106 52 L105 49 L102 48 L105 47 Z" fill="white" opacity="0.5"/>
+  <rect width="128" height="128" rx="28" fill="url(#bgSheen)"/>
+  <g filter="url(#shadow)">
+    <!-- Origami crane body - central diamond -->
+    <polygon points="64,36 88,62 64,88 40,62" fill="url(#craneFill)" stroke="#ffffff" stroke-width="2" stroke-linejoin="round" opacity="0.9"/>
+    <!-- Left wing -->
+    <polygon points="40,62 64,36 24,48" fill="#ffffff" fill-opacity="0.12" stroke="#ffffff" stroke-width="1.8" stroke-linejoin="round" opacity="0.85"/>
+    <!-- Right wing -->
+    <polygon points="88,62 64,36 104,48" fill="#ffffff" fill-opacity="0.08" stroke="#ffffff" stroke-width="1.8" stroke-linejoin="round" opacity="0.85"/>
+    <!-- Neck/head -->
+    <polygon points="64,36 44,26 38,30" fill="#ffffff" fill-opacity="0.1" stroke="#ffffff" stroke-width="1.8" stroke-linejoin="round" opacity="0.9"/>
+    <!-- Beak -->
+    <line x1="44" y1="26" x2="36" y2="22" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" opacity="0.9"/>
+    <!-- Tail -->
+    <polygon points="64,88 56,96 72,96" fill="#ffffff" fill-opacity="0.06" stroke="#ffffff" stroke-width="1.5" stroke-linejoin="round" opacity="0.7"/>
+    <!-- Paper fold crease lines -->
+    <line x1="64" y1="36" x2="64" y2="88" stroke="#ffffff" stroke-width="1" opacity="0.3"/>
+    <line x1="40" y1="62" x2="88" y2="62" stroke="#ffffff" stroke-width="0.8" opacity="0.2"/>
+    <!-- Fold shadow on right half -->
+    <polygon points="64,36 88,62 64,88" fill="#ffffff" fill-opacity="0.05"/>
+    <!-- Invoice lines on crane body -->
+    <g opacity="0.25" stroke="#ffffff" stroke-width="0.8" stroke-linecap="round">
+      <line x1="52" y1="52" x2="72" y2="52"/>
+      <line x1="54" y1="57" x2="70" y2="57"/>
+      <line x1="52" y1="67" x2="72" y2="67"/>
+      <line x1="54" y1="72" x2="68" y2="72"/>
+    </g>
+    <!-- Dollar sign on left wing -->
+    <text x="30" y="56" font-family="Arial, sans-serif" font-size="10" font-weight="bold" fill="#ffffff" opacity="0.25">$</text>
+    <!-- Sparkle at beak tip -->
+    <g filter="url(#sparkle)">
+      <circle cx="36" cy="22" r="2" fill="#ffffff" opacity="0.9"/>
+    </g>
+    <g stroke="#ffffff" stroke-width="1" opacity="0.5">
+      <line x1="36" y1="19" x2="36" y2="25"/>
+      <line x1="33" y1="22" x2="39" y2="22"/>
+    </g>
+  </g>
 </svg>
